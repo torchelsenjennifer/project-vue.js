@@ -2,8 +2,8 @@
 export default {
 	data() {
 		return {
-			name: "Jennifer Torchelsen",
 			login: "torchelsenjennifer",
+			name: "Jennifer Torchelsen",
 			bio: "...",
 			company: "Acne Inc.",
 			avatar_url: "https://unsplash.it/256",

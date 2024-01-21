@@ -1,0 +1,44 @@
+<script>
+import { reactive } from 'vue';
+
+export default {
+	setup() {
+		const state = reactive({
+			login: "torchelsenjennifer",
+			name: "Jennifer Torchelsen",
+			bio: "...",
+			company: "Acne Inc.",
+			avatar_url: "https://unsplash.it/256",
+			searchInput: "",
+		})
+
+		async function fetchGithubUser() {
+			const res = await fetch(
+				`https://api.github.com/users/${state.searchInput}`
+			);
+			const { login, name, bio, company, avatar_url } = await res.json();
+
+			state.login = login;
+			state.name = name;
+			state.bio = bio;
+			state.company = company;
+			state.avatar_url = avatar_url;
+		}
+		return {
+			state,
+			fetchGithubUser
+		}
+	}
+}
+</script>
+
+<template>
+	<h1>GitHub User Data</h1>
+	<input type="text" v-model="state.searchInput" />
+	<button v-on:click="fetchGithubUser">Carregar Usuario</button>
+	<img v-bind:src="state.avatar_url" />
+	<strong>@{{ state.login }}</strong>
+	<h2>{{ state.name }}</h2>
+	<h3>{{ state.company }}</h3>
+	<span>{{ state.bio }}</span>
+</template>
