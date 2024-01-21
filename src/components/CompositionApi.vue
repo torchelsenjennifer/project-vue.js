@@ -2,12 +2,13 @@
 import { reactive } from 'vue';
 
 const state = reactive({
-	login: "torchelsenjennifer",
-	name: "Jennifer Torchelsen",
-	bio: "...",
-	company: "Acne Inc.",
-	avatar_url: "https://unsplash.it/256",
-	searchInput: "",
+	login: '',
+	name: '',
+	bio: '',
+	company: '',
+	avatar_url: '',
+	repos: [],
+	searchInput: '',
 })
 
 async function fetchGithubUser() {
@@ -21,16 +22,34 @@ async function fetchGithubUser() {
 	state.bio = bio;
 	state.company = company;
 	state.avatar_url = avatar_url;
+
+	fetchUserRepositories(login)
+}
+
+async function fetchUserRepositories(username) {
+	const res = await fetch(`https://api.github.com/users/${username}/repos`)
+	const repos = await res.json()
+
+	state.repos = repos
 }
 </script>
 
 <template>
 	<h1>GitHub User Data</h1>
 	<input type="text" v-model="state.searchInput" />
-	<button v-on:click="fetchGithubUser">Carregar Usuario</button>
-	<img v-bind:src="state.avatar_url" />
-	<strong>@{{ state.login }}</strong>
-	<h2>{{ state.name }}</h2>
-	<h3>{{ state.company }}</h3>
-	<span>{{ state.bio }}</span>
+	<button @click="fetchGithubUser">Carregar Usuario</button> <!--v-on:-->
+	<div v-if="state.login !== ''">
+		<img :src="state.avatar_url" /> <!--  v-bind -->
+		<strong>@{{ state.login }}</strong>
+		<h2>{{ state.name }}</h2>
+		<h3>{{ state.company }}</h3>
+		<span>{{ state.bio }}</span>
+	</div>
+	<section v-if="state.repos.length > 0">
+		<article v-for="repo of state.repos">
+			<h3>{{ repo.full_name }}</h3>
+			<p>{{ repo.description }}</p>
+			<a :href="repo.html_url" target="_blank">Ver no GitHub</a>
+		</article>
+	</section>
 </template>
