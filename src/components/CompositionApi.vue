@@ -1,34 +1,26 @@
-<script>
+<script setup>
 import { reactive } from 'vue';
 
-export default {
-	setup() {
-		const state = reactive({
-			login: "torchelsenjennifer",
-			name: "Jennifer Torchelsen",
-			bio: "...",
-			company: "Acne Inc.",
-			avatar_url: "https://unsplash.it/256",
-			searchInput: "",
-		})
+const state = reactive({
+	login: "torchelsenjennifer",
+	name: "Jennifer Torchelsen",
+	bio: "...",
+	company: "Acne Inc.",
+	avatar_url: "https://unsplash.it/256",
+	searchInput: "",
+})
 
-		async function fetchGithubUser() {
-			const res = await fetch(
-				`https://api.github.com/users/${state.searchInput}`
-			);
-			const { login, name, bio, company, avatar_url } = await res.json();
+async function fetchGithubUser() {
+	const res = await fetch(
+		`https://api.github.com/users/${state.searchInput}`
+	);
+	const { login, name, bio, company, avatar_url } = await res.json();
 
-			state.login = login;
-			state.name = name;
-			state.bio = bio;
-			state.company = company;
-			state.avatar_url = avatar_url;
-		}
-		return {
-			state,
-			fetchGithubUser
-		}
-	}
+	state.login = login;
+	state.name = name;
+	state.bio = bio;
+	state.company = company;
+	state.avatar_url = avatar_url;
 }
 </script>
 

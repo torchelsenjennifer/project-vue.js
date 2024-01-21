@@ -1,17 +1,9 @@
-<script>
-import OptionsApi from './components/OptionsApi.vue';
+<script setup>
 import CompositionApi from './components/CompositionApi.vue';
-export default {
-	components: {
-		OptionsApi,
-		CompositionApi
-	}
-}
 </script>
 
 <template>
 	<CompositionApi />
-	<OptionsApi />
 </template>
 
 <style>
